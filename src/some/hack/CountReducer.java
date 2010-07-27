@@ -30,4 +30,8 @@ public class CountReducer extends Reducer {
         result.set(numb);
         context.write(word, result);
     }
+    
+    static void log(Object o){
+        System.out.println(o);
+    }
 }

@@ -4,12 +4,21 @@ import java.io.*;
 import java.util.*;
 
 public class Parser {
-	
+	String reason;
+	String status;
+	String comment;
+	String merchant;
+	String path;
+	Parser(String path){
+		this.path = path;
+	}
 	public static void main(String[] a) throws Exception{
 		String inp = "/Users/michael/development/data/huge/rev_small";
-		parse(inp);
+		Parser p= new Parser(inp);
+		p.parse(inp);
+		
 	}
-	static  void parse(String path) throws IOException{
+	public void parse(String path) throws IOException{
 		Scanner scanner = new Scanner(new File(path)).useDelimiter("\\-\\>\\|\\|\\<\\-");
 		log(scanner.next());
 		while(scanner.hasNext()){
@@ -18,9 +27,11 @@ public class Parser {
 			String status = rev[2];
 			String comment = rev[3];			
 			String mercant = rev[6];
-			log(rev);
+			 
 		}
 	}
+	
+	
 	static void log(Object o){
 		System.out.println(o);
 	}

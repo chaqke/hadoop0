@@ -14,7 +14,7 @@ import org.apache.commons.httpclient.HttpMethod;
 public class WordCount {
 
 	public static class Map extends MapReduceBase implements
-			Mapper<LongWritable, Text, Text, IntWritable> {
+			CountMapper<LongWritable, Text, Text, IntWritable> {
 		private final static IntWritable one = new IntWritable(1);
 		private Text word = new Text();
 

@@ -5,33 +5,24 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-import java.lang.Long;
+import java.io.IOException;
 
-public class CountReducer extends Reducer {
-    private LongWritable result = new LongWritable();
-    public void reduce(Text word, IntWritable value, Context context) {
+public class CountReducer extends Reducer <Text,LongWritable,Text,LongWritable>{
+	private LongWritable result = new LongWritable();
 
-        long l1 = 1000000L;
-        int low  =(int) l1 & 0xFFFF;
-        int upper = (int) (l1>>16) & 0xFFFF;
-
-        log(upper);
-        log(low);
-
-        long numb = (upper<<16) | low;
-        log(numb);
-        log(">>>>>>>>>>>>>>>>>");
-
-        log(numb = ((upper+1)<<16 ) | (low+1));
-
-        log((int) numb & 0xFFFF);
-        log((int) (numb>>16) & 0xFFFF);
-
-        result.set(numb);
-        context.write(word, result);
-    }
-    
-    static void log(Object o){
-        System.out.println(o);
-    }
+	public void reduce(Text key, Iterable<IntWritable> values, Context context)
+			throws IOException, InterruptedException {
+		int sum1 = 0, sum2 = 0;
+		for (IntWritable val : values) {
+			if (val.get() == 1) {
+				sum1 += 1;
+			} else {
+				sum2 += 1;
+			}
+			long sum = (sum1 << 16) | sum2;
+			result.set(sum);
+			context.write(key, result);
+		}
+	}
+ 
 }

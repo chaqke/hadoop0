@@ -23,6 +23,7 @@ public class Executor {
 	    job.setReducerClass(CountReducer.class);
 	    job.setOutputKeyClass(Text.class);
 	    job.setOutputValueClass(LongWritable.class);
+	    
 	    FileInputFormat.addInputPath(job, new Path(inPath));
 	    FileOutputFormat.setOutputPath(job, new Path(outPath));
 	    

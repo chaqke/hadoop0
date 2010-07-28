@@ -15,6 +15,7 @@ public class CountMapper extends Mapper<Object, Text, Text, LongWritable> {
 
 	public void map(Object key, Text value, Context context)
 			throws IOException, InterruptedException {
+		try{
 		String[] rev = value.toString().split("\\-\\>\\|");
 		String reason = rev[1];
 		String comment = rev[3];
@@ -26,10 +27,15 @@ public class CountMapper extends Mapper<Object, Text, Text, LongWritable> {
 			String[] carr = comment.split("\\s");
 			for (String s : carr) {
 				word.set(s.trim());
-				context.write(word, isAlert ? one : two);
+				LongWritable l  = isAlert ? one : two;
+				//System.out.println(isAlert  + " == " + l.get());
+				context.write(word, l);
 			}
 		}
-	 
+		}catch(Exception e){
+			//System.out.println(value.toString());
+			//throw new RuntimeException(e);
+		}
 	}
 
 }
